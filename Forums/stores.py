@@ -7,7 +7,7 @@ class MemberStore():
 
     def add(self, member):
         member.member_id = MemberStore.last_id
-        self.members.append(member)
+        MemberStore.members.append(member)
         MemberStore.last_id += 1
 
     def get_by_id(self, id):
@@ -41,7 +41,7 @@ class PostStore():
 
     def add(self, post):
         post.post_id = PostStore.last_id
-        self.posts.append(post)
+        PostStore.posts.append(post)
         PostStore.last_id += 1
 
     def get_by_id(self, id):
@@ -54,8 +54,7 @@ class PostStore():
 
     def entity_exists(self, post):
         result = False
-        all_posts = self.get_all()
-        if post in all_posts:
+        if post in PostStore.posts:
             result = True
         return result
 
