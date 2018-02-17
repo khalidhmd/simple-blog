@@ -20,8 +20,7 @@ class MemberStore():
 
     def entity_exists(self, member):
         result = False
-        all_members = self.get_all()
-        if member in all_members:
+        if member in MemberStore.members:
             result = True
         return result
 

@@ -22,3 +22,5 @@ print m.name
 
 p = post_store.get_by_id(1)
 print p.title
+
+print member_store.entity_exists(member2)
