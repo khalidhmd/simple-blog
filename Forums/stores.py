@@ -16,6 +16,7 @@ class MemberStore():
         for m in all_members:
             if m.member_id == id:
                 result = m
+                break
         return result
 
     def entity_exists(self, member):
@@ -28,10 +29,10 @@ class MemberStore():
         member = self.get_by_id(id)
         MemberStore.members.remove(member)
 
+    def update(self, member):
+        pass
+
     
-
-
-
 class PostStore():
     posts = []
     last_id = 1
@@ -50,6 +51,7 @@ class PostStore():
         for p in all_posts:
             if p.post_id == id:
                 result = p
+                break
         return result
 
     def entity_exists(self, post):
