@@ -20,9 +20,7 @@ class MemberStore():
         return result
 
     def entity_exists(self, member):
-        result = False
-        if member in MemberStore.members:
-            result = True
+        result = self.get_by_id(member.member_id)
         return result
 
     def delete(self, id):
@@ -31,10 +29,9 @@ class MemberStore():
 
     def update(self, member):
         all_members = self.get_all()
-        for member_in_list in all_members:
+        for index, member_in_list in enumerate(all_members):
             if member_in_list.member_id == member.member_id:
-                member_in_list.name = member.name
-                member_in_list.age = member.age
+                all_members[index] = member
                 break
         
     def get_by_name(self, member_name):
