@@ -30,7 +30,20 @@ class MemberStore():
         MemberStore.members.remove(member)
 
     def update(self, member):
-        pass
+        all_members = self.get_all()
+        for member_in_list in all_members:
+            if member_in_list.member_id == member.member_id:
+                member_in_list.name = member.name
+                member_in_list.age = member.age
+                break
+        
+    def get_by_name(self, member_name):
+        member_list = []
+        all_members = self.get_all()
+        for member in all_members:
+            if member.name == member_name:
+                member_list.append(member)
+        return member_list
 
     
 class PostStore():

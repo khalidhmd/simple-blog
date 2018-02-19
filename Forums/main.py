@@ -34,17 +34,28 @@ post_store = stores.PostStore()
 
 member_store_should_add_models(create_members(),member_store)
 post_store_should_add_posts(create_posts(),post_store)
-#member_store.add(member1)
-#member_store.add(member2)
-
-#post_store.add(post1)
-#post_store.add(post2)
-#post_store.add(post3)
 
 m = member_store.get_by_id(1)
 print m.name
 
+#test get_by_is(id)
 p = post_store.get_by_id(1)
 print p.title
-member2 = models.Member('Safwat', 43)
-print member_store.entity_exists(member2)
+
+#test entit_exists(member)
+sample_member = models.Member('Safwat', 43)
+print member_store.entity_exists(sample_member)
+
+#test update(member)
+updated_member = models.Member('safwat Aly', 54, 2)
+member_store.update(updated_member)
+m = member_store.get_by_id(2)
+print m.name
+
+#test get_by_name(name)
+members_by_name = member_store.get_by_name('Khalid')
+print type(members_by_name)
+print members_by_name[0].name
+
+
+
