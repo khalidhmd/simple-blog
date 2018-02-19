@@ -20,7 +20,10 @@ class MemberStore():
         return result
 
     def entity_exists(self, member):
-        result = self.get_by_id(member.member_id)
+        mem = self.get_by_id(member.member_id)
+        result = False
+        if mem is not None:
+            result = True
         return result
 
     def delete(self, id):
