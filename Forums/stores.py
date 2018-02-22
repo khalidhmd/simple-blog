@@ -38,13 +38,19 @@ class MemberStore():
                 break
         
     def get_by_name(self, member_name):
-        member_list = []
+       return (member for member in self.get_all() if member.name == member_name)
+    
+    def get_members_with_posts(self, post_store):
         all_members = self.get_all()
         for member in all_members:
-            if member.name == member_name:
-                member_list.append(member)
-        return member_list
+            posts = post_store.get_by_member_id(member.member_id)
+            member.member_posts = posts
+        return all_members
 
+    def get_top(self, post_store, top_number):
+        all_members = self.get_members_with_posts(post_store)
+        all_members = sorted(all_members, key=lambda member: len(member.member_posts), reverse=True)
+        return all_members[:top_number]
     
 class PostStore():
     posts = []
@@ -65,6 +71,14 @@ class PostStore():
             if p.post_id == id:
                 result = p
                 break
+        return result
+
+    def get_by_member_id(self, member_id):
+        all_posts = self.get_all()
+        result = []
+        for p in all_posts:
+            if p.member_id == member_id:
+                result.append(p)
         return result
 
     def entity_exists(self, post):
