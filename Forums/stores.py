@@ -1,42 +1,47 @@
-class MemberStore():
+class BaseStore():
+    def __init__(self, data_provider, last_id):
+        self._data_provider = data_provider
+        self._last_id = last_id
+
+    def get_all(self):
+        return self._data_provider
+
+    def add(self, item_instance):
+        item_instance.id = self._last_id
+        self._data_provider.append(item_instance)
+        self._last_id += 1
+
+    def get_by_id(self, id):
+        all_instances = self.get_all()
+        result = None
+        for instance in all_instances:
+            if instance.id == id:
+                result = instance
+                break
+        return result
+
+    def entity_exists(self, instance):
+        return self.get_by_id(instance.id) is not None
+
+    def delete(self, id):
+        instance = self.get_by_id(id)
+        self._data_provider.remove(instance)
+
+    def update(self, instance):
+        all_instances = self.get_all()
+        for index, instance_in_list in enumerate(all_instances):
+            if instance_in_list.id == instance.id:
+                all_instances[index] = instance
+                break
+
+
+class MemberStore(BaseStore):
     members = []
     last_id = 1
 
-    def get_all(self):
-        return MemberStore.members
+    def __init__(self):
+        super(type(BaseStore), MemberStore).__init__(MemberStore.members, MemberStore.last_id)
 
-    def add(self, member):
-        member.member_id = MemberStore.last_id
-        MemberStore.members.append(member)
-        MemberStore.last_id += 1
-
-    def get_by_id(self, id):
-        all_members = self.get_all()
-        result = None
-        for m in all_members:
-            if m.member_id == id:
-                result = m
-                break
-        return result
-
-    def entity_exists(self, member):
-        mem = self.get_by_id(member.member_id)
-        result = False
-        if mem is not None:
-            result = True
-        return result
-
-    def delete(self, id):
-        member = self.get_by_id(id)
-        MemberStore.members.remove(member)
-
-    def update(self, member):
-        all_members = self.get_all()
-        for index, member_in_list in enumerate(all_members):
-            if member_in_list.member_id == member.member_id:
-                all_members[index] = member
-                break
-        
     def get_by_name(self, member_name):
        return (member for member in self.get_all() if member.name == member_name)
     
@@ -51,42 +56,17 @@ class MemberStore():
         all_members = self.get_members_with_posts(post_store)
         all_members = sorted(all_members, key=lambda member: len(member.member_posts), reverse=True)
         return all_members[:top_number]
-    
-class PostStore():
+
+
+
+class PostStore(BaseStore):
     posts = []
     last_id = 1
 
-    def get_all(self):
-        return self.posts
+    def __init__(self):
+        super(type(BaseStore), PostStore).__init__(PostStore.posts, PostStore.last_id)
 
-    def add(self, post):
-        post.post_id = PostStore.last_id
-        PostStore.posts.append(post)
-        PostStore.last_id += 1
-
-    def get_by_id(self, id):
+    def get_posts_by_date(self):
         all_posts = self.get_all()
-        result = None
-        for p in all_posts:
-            if p.post_id == id:
-                result = p
-                break
-        return result
-
-    def get_by_member_id(self, member_id):
-        all_posts = self.get_all()
-        result = []
-        for p in all_posts:
-            if p.member_id == member_id:
-                result.append(p)
-        return result
-
-    def entity_exists(self, post):
-        result = False
-        if post in PostStore.posts:
-            result = True
-        return result
-
-    def delete(self, id):
-        post = self.get_by_id(id)
-        PostStore.posts.remove(post)
+        sorted(all_posts, key=lambda post: post.post_date, reverse=True)
+        return all_posts
