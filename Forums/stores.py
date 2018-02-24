@@ -40,7 +40,7 @@ class MemberStore(BaseStore):
     last_id = 1
 
     def __init__(self):
-        super(type(BaseStore), MemberStore).__init__(MemberStore.members, MemberStore.last_id)
+        super().__init__(MemberStore.members, MemberStore.last_id)
 
     def get_by_name(self, member_name):
        return (member for member in self.get_all() if member.name == member_name)
@@ -48,7 +48,7 @@ class MemberStore(BaseStore):
     def get_members_with_posts(self, post_store):
         all_members = self.get_all()
         for member in all_members:
-            posts = post_store.get_by_member_id(member.member_id)
+            posts = post_store.get_by_member_id(member.id)
             member.member_posts = posts
         return all_members
 
@@ -64,9 +64,17 @@ class PostStore(BaseStore):
     last_id = 1
 
     def __init__(self):
-        super(type(BaseStore), PostStore).__init__(PostStore.posts, PostStore.last_id)
+        super().__init__(PostStore.posts, PostStore.last_id)
 
     def get_posts_by_date(self):
         all_posts = self.get_all()
         sorted(all_posts, key=lambda post: post.post_date, reverse=True)
         return all_posts
+
+    def get_by_member_id(self, member_id):
+        posts = []
+        all_posts = self.get_all()
+        for post in all_posts:
+            if post.member_id == member_id:
+                posts.append(post)
+        return posts
