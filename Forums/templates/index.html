@@ -1,38 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Forum Home Page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+    <meta charset="utf-8">
+    <title>Forums Workshop</title>
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <h4>UserName</h4>
-    <div>
-        <label for="searchuser">serch users</label>
-        <input type="search" name="searchuser" id="searchuser">
+    <div class="centered-item">
+        <h1>OneMillion</h1>
     </div>
-    <div>
-        <input type="button" value="My Profile">
-        <input type="button" value="Top 10 Users">
-        <input type="button" value="All Posts">
+    <div class="centered-item">
+        <a href="#">Members</a>
+        <a href="#">Profile</a>
     </div>
-    <div>
+    <div class="content">
+        <a href="#">Create</a>
         <table>
             <thead>
                 <tr>
-                    <td>Post</td>
-                    <td>Action</td>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        Edit
+                    </th>
+                    <th>
+                        Delete
+                    </th>
                 </tr>
             </thead>
-            <tr>
-                <td>Post title</td>
-                <td><input type="button" value="View"></td>
-            </tr>
+            <tbody>
+                {% for post in posts %}
+                <tr>
+                    <td>
+                        {{post.title}}
+                    </td>
+                    <td>
+                        <a href="#">edit</a>
+                    </td>
+                    <td>
+                        <a href="#">delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
-
 </body>
 </html>
