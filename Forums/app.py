@@ -3,12 +3,14 @@ import stores
 from flask import Flask, render_template
 import models
 import stores
-import auxiliary as aux
+import dummy_data as dm
 
 app = Flask(__name__)
 
 post_store = stores.PostStore()
-aux.post_store_should_add_posts(aux.create_posts(), post_store)
+for post in dm.create_posts():
+    post_store.add(post)
+
 
 @app.route("/")
 @app.route("/index")
