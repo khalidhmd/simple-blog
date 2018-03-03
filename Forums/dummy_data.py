@@ -1,17 +1,28 @@
 import models
-import stores
 
+dummy_members = [
+    models.Member("Mohammed", 20),
+    models.Member("Mohammed", 22),
+    models.Member("Abdo", 25),
+]
 
-def create_members():
-    member1 = models.Member('Khalid', 40)
-    member2 = models.Member('Safwat', 43)
-    return (member1, member2)
+dummy_posts = [
+    models.Post("Agriculture", "Agriculture is amazing", dummy_members[0].id),
+    models.Post("Engineering", "I love engineering", dummy_members[0].id),
 
+    models.Post("Medicine", "Medicine is great", dummy_members[1].id),
+    models.Post("Architecture", "Spectacular art", dummy_members[1].id),
+    models.Post("Astronomy", "Space is awesome", dummy_members[1].id),
 
-def create_posts():
-    post1 = models.Post('Post1', 'This is the first Post model example', 1)
-    post2 = models.Post(
-        'Post2', 'Another post example. it is getting exciting', 1)
-    post3 = models.Post(
-        'Post3', 'Third post. Hopfully i got to the end of this task', 2)
-    return (post1, post2, post3)
+    models.Post("Geology", "Earth is our friend", dummy_members[2].id),
+    models.Post("ComputerSci", "Our passion", dummy_members[2].id),
+    models.Post("Algorithms", "Yeah, more of that", dummy_members[2].id),
+    models.Post("Operating Systems", "Ewww", dummy_members[2].id),
+]
+
+def seed_stores(member_store, post_store):
+    for member in dummy_members:
+        member_store.add(member)
+
+    for post in dummy_posts:
+        post_store.add(post)
